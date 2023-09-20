@@ -11,31 +11,27 @@ namespace longest_substring_without_repeating_characters
     {
         static void Main(string[] args)
         {
-            string s = "bbbdabb";
-            int temp1;
-            int temp2 = 1;
-            int max = (s.Length == 0) ? 0 : 1;
-            for (var i = s.Length - 2; (i >= 0) & (temp2 + i > max); i--)
+            string s = "looabol";
+            int n = s.Length;
+            int res = 0;
+
+            int[] lastIndex = new int[96];
+
+            for (int j = 0; j < 96; j++)
             {
-                temp1 = 1;
-                for (var j = i + 1; (j < Math.Min(s.Length, j + temp2 + 1)) & (s[i] != s[j % s.Length]); j++)
-                {
-                    temp1++;
-                }
-                if (temp1 > temp2)
-                {
-                    temp2++;
-                    if (temp2 > max)
-                    {
-                        max = temp2;
-                    }
-                }
-                else
-                {
-                    temp2 = temp1;
-                }
+                lastIndex[j] = -1;
             }
-            Console.WriteLine(max);
+            int i = 0;
+
+            for (int j = 0; j < n; j++)
+            {
+                i = Math.Max(i, lastIndex[s[j] - 32] + 1);
+
+                res = Math.Max(res, j - i + 1);
+
+                lastIndex[s[j] - 32] = j;
+            }
+            Console.WriteLine(res);
         }
     }
 }
